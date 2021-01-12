@@ -15,18 +15,18 @@ export default class ProjectsRepository
     private _projects:Project[] = [];
     public get Projects(){return this._projects;}
 
-    public ContainsFullName(fullName:string)
+    public ContainsName(projectName:string)
     {
-        return this.Projects.some(item=>item.FullName===fullName);
+        return this.Projects.some(item=>item.Name===projectName);
     }
 
-    public FindProjectNoByFullName(fullName:string)
+    public FindProjectNoByName(projectName:string)
     {
-        return this.Projects.find(item=>item.FullName===fullName)?.No;
+        return this.Projects.find(item=>item.Name===projectName)?.No;
     }
 
-    public FindFullNameByProjectNo(projectNo:string)
+    public FindNameByProjectNo(projectNo:string)
     {
-        return this.Projects.find(item=>item.No===projectNo)?.FullName;
+        return this.Projects.find(item=>item.No===projectNo)?.Name;
     }
 }

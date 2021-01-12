@@ -9,11 +9,12 @@ import EquipmentHourlyRatesRepository from './Repositories/EquipmentHourlyRatesR
 
 async function Main() {
   try{
-    // await Promise.all([
-    //   ProjectsRepository.Instance.LoadAsync(),
-    //   EquipmentHourlyRatesRepository.Instance.LoadAsync()]
-    // );
-    
+    await Promise.all([
+      ProjectsRepository.Instance.LoadAsync(),
+      EquipmentHourlyRatesRepository.Instance.LoadAsync()]
+    );
+  
+
     ReactDOM.render(
       <React.StrictMode>
         <App />

@@ -27,6 +27,7 @@ const UsageRecordEditor: React.FC<{
             {
                 form.setFieldsValue(Record);
                 form.setFieldsValue({
+                    ProjectName:_projectsRepo.FindNameByProjectNo(Record.ProjectNo!),
                     StartTimeString:_timeStampConverter.FromUnixTimeSeconds(Record.StartTime!),
                     EndTimeString:_timeStampConverter.FromUnixTimeSeconds(Record.EndTime!)
                 });
@@ -95,7 +96,7 @@ const UsageRecordEditor: React.FC<{
                     label="Project Name"
                     rules={[{
                         required: true,
-                        validator: (_, value: string) => _projectsRepo.ContainsFullName(value) ? Promise.resolve() : Promise.reject("Project name is invalid."),
+                        validator: (_, value: string) => _projectsRepo.ContainsName(value) ? Promise.resolve() : Promise.reject("Project name is invalid."),
                         message: "Project name is invalid."
                     }]}
                 >
@@ -103,7 +104,7 @@ const UsageRecordEditor: React.FC<{
                         onSearch={(value) => form.setFieldsValue({ ProjectName: value })}>
                         {
                             _projectsRepo.Projects.map( item=>(
-                                <Option value={item.FullName!} key={item.No!}>{item.FullName}</Option>
+                                <Option value={item.Name!} key={item.Name!}>{item.Name}</Option>
                             ))
                         }
                     </Select>
@@ -145,7 +146,7 @@ const UsageRecordEditor: React.FC<{
             {
                 const values = await form.validateFields();
                 const usageRecord: UsageRecord = Object.assign(new UsageRecord(), values);
-                const projecrtNo = _projectsRepo.FindProjectNoByFullName(values.ProjectName);
+                const projecrtNo = _projectsRepo.FindProjectNoByName(values.ProjectName);
                 if(!projecrtNo)
                 {
                     window.alert("Has problem with project no!");
@@ -156,6 +157,7 @@ const UsageRecordEditor: React.FC<{
                 usageRecord.EndTime = _timeStampConverter.ToUnixTimeSeconds(values.EndTimeString);
 
                 for (const key in usageRecord) {
+                    if(key === "Id"){continue;}
                     if (Object.prototype.hasOwnProperty.call(usageRecord, key)) {
                         const wrap:any = usageRecord;
                         if(!wrap[key]){

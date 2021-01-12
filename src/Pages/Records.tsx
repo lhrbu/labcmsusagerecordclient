@@ -58,8 +58,12 @@ export default function Records()
                     onFilter={(value, record) => (record as UsageRecord).EquipmentNo === value }
                     />
                 <Column title="Project Name" 
-                    render={(_,usageRecord)=>usageRecord?ProjectsRepository.Instance.FindFullNameByProjectNo(
-                        (usageRecord as UsageRecord)!.ProjectNo!):null}/>
+                    render={(_,usageRecord)=>usageRecord?ProjectsRepository.Instance.FindNameByProjectNo(
+                        (usageRecord as UsageRecord)!.ProjectNo!):null}
+                    filters = {GenerateFilterOptions(usageRecords.filter(item=>item.ProjectNo?true:false).map(item=>
+                        ProjectsRepository.Instance.FindNameByProjectNo(item.ProjectNo!)!))}
+                    onFilter={(value,record)=>(record as UsageRecord).ProjectNo===ProjectsRepository.Instance.FindProjectNoByName(value as string)}
+                        />
                 <Column title="Test Type" dataIndex="TestType"
                     filters={GenerateFilterOptions(usageRecords.filter(item=>item.TestType?true:false).map(item=>item.TestType!))}
                     onFilter={(value, record) => (record as UsageRecord).TestType === value }
