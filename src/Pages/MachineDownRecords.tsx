@@ -75,7 +75,8 @@ export default function MachineDownRecords()
     {
         setInEditing(true);
         try {
-            const repairedDateString = window.prompt(`Input Equipment ${selectedRecord?.EquipmentNo} repaired date in yyyy/MM/dd HH:mm format`);
+            const repairedDateString = window.prompt(`Input Equipment ${selectedRecord?.EquipmentNo} repaired date in yyyy/MM/dd HH:mm format:`,
+                moment().format('yyyy/MM/DD HH:mm'));
             if (repairedDateString) {
                 const repairedDate = _timeStampStringConverter.ToUnixTimeSeconds(repairedDateString);
                 if(repairedDate > selectedRecord!.MachineDownDate)
