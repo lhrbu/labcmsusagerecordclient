@@ -45,7 +45,7 @@ export default function Records()
                 bordered 
                 size='small'
             >
-                 <Column title="User" dataIndex="User"
+                <Column title="User" dataIndex="User"
                     filters={GenerateFilterOptions(usageRecords.filter(item=>item.User?true:false).map(item=>item.User!))}
                     onFilter={(value, record) => (record as UsageRecord).User === value }
                     />
