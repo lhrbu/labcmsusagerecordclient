@@ -5,11 +5,11 @@ export default class MachineDownRecord
     public EquipmentNo: string | null = null;
     public MachineDownDate : number = 0;
     public Comment: string | null = null;
-    public MachineRepairedDate :number | null = 0;
+    public MachineRepairedDate :number | null =null;
     public static GetDuration(record:MachineDownRecord)
     {
         if(record.MachineRepairedDate && record.MachineRepairedDate>record.MachineDownDate)
-        { return record.MachineRepairedDate-record.MachineDownDate;}
+        { return (record.MachineRepairedDate-record.MachineDownDate)/3600;}
         else{return null;}
     }
 }

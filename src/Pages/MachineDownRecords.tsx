@@ -11,13 +11,14 @@ const _pageSize = 20;
 
 export default function MachineDownRecords()
 {
-    const _usageRecordsWebAPI = new UsageRecordsWebAPI();
     const _machineDownRecordsWebAPI =new MachineDownRecordsWebAPI();
     const _timeStampStringConverter = new TimeStampStringConverter();
     const [tableLoading,setTableLoading]=useState<boolean>(true);
     const [currentPageIndex,setCurrentPageIndex]=useState<number>(1);
     const [machineDownRecords,setMachineDownRecords]= useState<MachineDownRecord[]>([]);
 
+    const [updatable,setUpdatable] = useState<boolean>(false);
+    const [resetable,setResetable] = useState<boolean>(false);
     const [inEditing,setInEditing]=useState<boolean>(false);
     const [selectedRecord,setSelectedRecord]=useState<MachineDownRecord|null>(null);
 
@@ -35,7 +36,7 @@ export default function MachineDownRecords()
                 rowSelection={{
                     type:"radio",
                     hideSelectAll:true,
-                    onSelect:setSelectedRecord
+                    onSelect:OnSelect
                     }}
                 bordered 
                 size='small'>
@@ -45,23 +46,36 @@ export default function MachineDownRecords()
                 <Column title="Equipment No" dataIndex="EquipmentNo"
                     filters={GenerateFilterOptions(machineDownRecords.filter(item=>item.EquipmentNo?true:false).map(item=>item.EquipmentNo!))}
                     onFilter={(value, record) => (record as MachineDownRecord).EquipmentNo === value }/>
-                <Column title="Machine Down Date" dataIndex="MachineDownDate" 
+                <Column title="Down" dataIndex="MachineDownDate" 
+                    render={timeStampValue=>timeStampValue?_timeStampStringConverter.FromUnixTimeSeconds(timeStampValue as number):null}/>
+                <Column title="Repaired" dataIndex="MachineRepairedDate" 
                     render={timeStampValue=>timeStampValue?_timeStampStringConverter.FromUnixTimeSeconds(timeStampValue as number):null}/>
                 <Column title="Comment" dataIndex="Comment" />
-                <Column title="Machine Repaired Date" dataIndex="MachineRepairedDate" 
-                    render={timeStampValue=>timeStampValue?_timeStampStringConverter.FromUnixTimeSeconds(timeStampValue as number):null}/>
                 <Column title="Duration" 
                     render={(_,record)=>record?GetAndRenderDuration(record as MachineDownRecord):null}/>
             </Table>
 
-            <Button type='primary' disabled={selectedRecord?false:true}
+            <Button type='primary' disabled={!updatable} loading={inEditing}
                 onClick={ConfirmRepairedDateAsync}>Update</Button>
-            <Button type="primary" danger disabled={selectedRecord?false:true}
+            <Button type="primary" danger disabled={!resetable} loading={inEditing}
                 onClick={CancelRepairedDateAsync} style={{marginLeft:'4px'}}>
                 Reset
             </Button>
         </Fragment>
     );
+
+    function OnSelect(record:MachineDownRecord)
+    {
+        setSelectedRecord(record);
+        if(record.MachineRepairedDate)
+        {
+            setResetable(true);
+            setUpdatable(false);
+        }else{
+            setUpdatable(true);
+            setResetable(false);
+        }
+    }
 
     async function FetchMachineDownRecords()
     {
@@ -86,6 +100,8 @@ export default function MachineDownRecords()
                     await _machineDownRecordsWebAPI.PutAsync(machineDownRecords[index]);
                     setMachineDownRecords([...machineDownRecords]);
                     setSelectedRecord(null);
+                    setUpdatable(false);
+                    setResetable(false);
                 }else{
                     throw new Error('Error: Input Repaired date is early than down date!');
                 }
@@ -108,6 +124,8 @@ export default function MachineDownRecords()
                 await _machineDownRecordsWebAPI.PutAsync(machineDownRecords[index]);
                 setMachineDownRecords([...machineDownRecords]);
                 setSelectedRecord(null);
+                setUpdatable(false);
+                setResetable(false);
             }
         }catch(error)
         {

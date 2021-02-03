@@ -12,6 +12,8 @@ import AddRecord from './Pages/AddRecord';
 import Records from './Pages/Records';
 import Admin from './Pages/Admin';
 import DynamicQuery from './Pages/DynamicQuery';
+import AddMachineDownRecord from './Pages/AddMachineDownRecord';
+import MachineDownRecords from './Pages/MachineDownRecords';
 
 const { Header, Content, Footer } = Layout;
 
@@ -28,6 +30,8 @@ export default function App()
             <Menu.Item key="/AddRecord"><Link to='/AddRecord'><PlusCircleFilled />Add Record</Link></Menu.Item>
             <Menu.Item key="/Records"><Link to='/Records'><ProfileFilled />Records</Link></Menu.Item>
             <Menu.Item key="/api/ExcelExport"><a href='/api/ExcelExport' target="_blank"><SaveFilled />Excel</a></Menu.Item>
+            <Menu.Item key='/AddMachineDownRecord'><Link to='/AddMachineDownRecord'><PlusCircleFilled />Add Machine Down</Link></Menu.Item>
+            <Menu.Item key='/MachineDownRecords'><Link to='/MachineDownRecords'><ProfileFilled />Machine Down Records</Link></Menu.Item>
             <Menu.Item key="/DynamicQuery"><Link to='/DynamicQuery'><CodeFilled />Query</Link></Menu.Item>
             <Menu.Item key="/Admin" ><Link id='AdminMenuDom' to="/Admin"><DatabaseFilled />Admin</Link></Menu.Item>
           </Menu>
@@ -42,6 +46,12 @@ export default function App()
               </Route>
               <Route exact path='/Records'>
                 <Records />
+              </Route>
+              <Route exact path='/AddMachineDownRecord'>
+                <AddMachineDownRecord />
+              </Route>
+              <Route exact path='/MachineDownRecords'>
+                <MachineDownRecords />
               </Route>
               <Route exact path='/DynamicQuery'>
                 <DynamicQuery />

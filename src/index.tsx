@@ -6,12 +6,15 @@ import reportWebVitals from './reportWebVitals';
 import 'antd/dist/antd.css';
 import ProjectsRepository from './Repositories/ProjectsRepository';
 import EquipmentHourlyRatesRepository from './Repositories/EquipmentHourlyRatesRepository';
+import UsersRepository from './Repositories/UsersRepository';
 
 async function Main() {
   try{
     await Promise.all([
       ProjectsRepository.Instance.LoadAsync(),
-      EquipmentHourlyRatesRepository.Instance.LoadAsync()]
+      EquipmentHourlyRatesRepository.Instance.LoadAsync(),
+      UsersRepository.Instance.LoadAsync()]
+      
     );
   
 
@@ -28,7 +31,7 @@ async function Main() {
     reportWebVitals();
     
   }catch(error){
-    window.alert(`Can't load project or equipment hourly rate information. with error: ${error}`);
+    window.alert(`Can't load project or equipment hourly rate or userid information. with error: ${error}`);
   }
 
 }
