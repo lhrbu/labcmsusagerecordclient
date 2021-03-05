@@ -101,7 +101,7 @@ const UsageRecordEditor: React.FC<{
                     }]}
                 >
                     <Select showSearch
-                        onSearch={(value) => form.setFieldsValue({ ProjectName: value })}>
+                        onSelect={OnProjectNameSelected}>
                         {
                             _projectsRepo.Projects.map( item=>(
                                 <Option value={item.Name!} key={item.Name!}>{item.Name}</Option>
@@ -109,6 +109,25 @@ const UsageRecordEditor: React.FC<{
                         }
                     </Select>
                 </Form.Item>
+
+                <Form.Item
+                    name="ProjectNo"
+                    label="Project No"
+                    rules={[{
+                        required: true,
+                        validator: (_, value: string) => _projectsRepo.ContainsNo(value) ? Promise.resolve() : Promise.reject("Project name is invalid."),
+                        message: "Project no is invalid."
+                    }]}
+                    >
+                    <Select showSearch
+                        onSelect={OnProjectNoSelected}>
+                        {
+                            _projectsRepo.Projects.map( item=>(
+                                <Option value={item.No!} key={item.No!}>{item.No}</Option>
+                            ))
+                        }
+                    </Select>
+                </Form.Item>             
 
                 <Form.Item
                     name="StartTimeString"
@@ -172,6 +191,24 @@ const UsageRecordEditor: React.FC<{
                 setSubmitButtonLoading(false);
             }
         };
+
+        function OnProjectNameSelected(value:string)
+        {
+            const projectNo = _projectsRepo.FindProjectNoByName(value);
+            form.setFieldsValue({
+                ProjectNo:projectNo,
+                ProjectName:value
+            });
+        }
+
+        function OnProjectNoSelected(value:string)
+        {
+            const projectName = _projectsRepo.FindNameByProjectNo(value);
+            form.setFieldsValue({
+                ProjectNo: value,
+                ProjectName: projectName
+            });
+        }
 
         function ResetForm()
         {

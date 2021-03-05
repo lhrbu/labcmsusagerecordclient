@@ -20,6 +20,11 @@ export default class ProjectsRepository
         return this.Projects.some(item=>item.Name===projectName);
     }
 
+    public ContainsNo(projectNo:string)
+    {
+        return this.Projects.some(item=>item.No===projectNo);
+    }
+
     public FindProjectNoByName(projectName:string)
     {
         return this.Projects.find(item=>item.Name===projectName)?.No;
