@@ -33,7 +33,7 @@ export default function App()
             <Menu.Item key='/AddMachineDownRecord'><Link to='/AddMachineDownRecord'><PlusCircleFilled />Add Machine Down</Link></Menu.Item>
             <Menu.Item key='/MachineDownRecords'><Link to='/MachineDownRecords'><ProfileFilled />Machine Down Records</Link></Menu.Item>
             <Menu.Item key="/DynamicQuery"><Link to='/DynamicQuery'><CodeFilled />Query</Link></Menu.Item>
-            <Menu.Item key="/Admin" ><Link id='AdminMenuDom' to="/Admin"><DatabaseFilled />Admin</Link></Menu.Item>
+            {/* <Menu.Item key="/Admin" ><Link id='AdminMenuDom' to="/Admin"><DatabaseFilled />Admin</Link></Menu.Item> */}
           </Menu>
         </Header>
         <Content style={{ padding: '0 28px' }}>
@@ -56,9 +56,9 @@ export default function App()
               <Route exact path='/DynamicQuery'>
                 <DynamicQuery />
               </Route>
-              <Route exact path='/Admin'>
+              {/* <Route exact path='/Admin'>
                 <Admin />
-              </Route>
+              </Route> */}
               <Route path='/'>
                 <Home />
               </Route>

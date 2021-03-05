@@ -75,9 +75,9 @@ const UsageRecordEditor: React.FC<{
                     <Select showSearch
                         onSearch={value => form.setFieldsValue({ EquipmentNo: value })}>
                         {
-                            _equipmentHourlyRatesRepo.EquipmentHourlyRates
+                            _equipmentHourlyRatesRepo.EquipmentHourlyRates.map(item=>item.EquipmentNo).sort()
                                 .map(item=>(
-                                    <Option value={item.EquipmentNo!} key={item.EquipmentNo!}>{item.EquipmentNo}</Option>
+                                    <Option value={item!} key={item!}>{item}</Option>
                                 ))
                         }
                     </Select>
@@ -103,8 +103,8 @@ const UsageRecordEditor: React.FC<{
                     <Select showSearch
                         onSelect={OnProjectNameSelected}>
                         {
-                            _projectsRepo.Projects.map( item=>(
-                                <Option value={item.Name!} key={item.Name!}>{item.Name}</Option>
+                            _projectsRepo.Projects.map(item=>item.Name).sort().map( item=>(
+                                <Option value={item!} key={item!}>{item}</Option>
                             ))
                         }
                     </Select>
@@ -122,8 +122,8 @@ const UsageRecordEditor: React.FC<{
                     <Select showSearch
                         onSelect={OnProjectNoSelected}>
                         {
-                            _projectsRepo.Projects.map( item=>(
-                                <Option value={item.No!} key={item.No!}>{item.No}</Option>
+                            _projectsRepo.Projects.map(item=>item.No).sort().map( item=>(
+                                <Option value={item!} key={item!}>{item}</Option>
                             ))
                         }
                     </Select>
